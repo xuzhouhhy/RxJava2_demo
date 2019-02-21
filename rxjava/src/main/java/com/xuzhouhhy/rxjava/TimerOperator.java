@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * created by hanhongyun on 2018/9/7 19:04
@@ -18,8 +18,7 @@ public class TimerOperator {
 
     public static void main(String... args) {
         System.out.println(mDateFormat.format(new Date()));
-        Observable.timer(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
+        Disposable subscribe = Observable.timer(2, TimeUnit.SECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
@@ -27,5 +26,11 @@ public class TimerOperator {
                         System.out.println(aLong);
                     }
                 });
+
+        try {
+            Thread.sleep(10 * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
